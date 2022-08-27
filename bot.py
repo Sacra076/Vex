@@ -150,7 +150,7 @@ async def on_member_join(member):
 
     #welcome message
     channel = bot.get_partial_messageable(WELCOME_CHANNEL_ID)
-    await channel.send(f"Welcome to server {member}! You are member  #{len(member.guild.members)}.")
+    await channel.send(f"Welcome to the server, {member}! You are member #{len(member.guild.members)}.")
 
 @bot.event
 async def on_member_remove(member):
