@@ -186,7 +186,7 @@ async def rules(ctx):
 
 **3.** No sensitive topics. Talking about subjects like politics or religion is not allowed
 
-**4.** No advertising of any kind outside of <#1012823922087051405 >
+**4.** No advertising of any kind outside of <#1012823922087051405>
 
 **5.** No spamming or repetitive sending of identical or similar messages (this includes pings or emojis)
 
