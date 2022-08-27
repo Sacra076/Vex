@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 
-
-bot = commands.Bot(command_prefix="!")
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="!", intents=intents)
 WELCOME_CHANNEL_ID = 1012846152028266617
 LEAVE_CHANNEL_ID = 1012846152028266617
 YOUTUBE_ANNOUNCEMENT_CHANNEL_ID = 1012822073506283670
