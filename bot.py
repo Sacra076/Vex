@@ -138,6 +138,7 @@ async def youtube(ctx):
 async def twitch(ctx):
     await ctx.send("https://www.twitch.tv/sacra076")
 
+
 #join messages
 @bot.event
 async def on_member_join(member):
@@ -150,7 +151,7 @@ async def on_member_join(member):
 
     #welcome message
     channel = bot.get_partial_messageable(WELCOME_CHANNEL_ID)
-    await channel.send(f"Welcome to the server, {member}! You are member #{len(member.guild.members)}.")
+    await channel.send(f"Welcome to the server, {member.mention}! You are member #{len(member.guild.members)}.",discord.AllowedMentions.none())
 
 @bot.event
 async def on_member_remove(member):
@@ -227,6 +228,20 @@ __Cerberus Activity Roles__
 <@&1012796068829855804> - Discord Bot""")
     await ctx.send(
         embeds=[embed])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
