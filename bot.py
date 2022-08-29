@@ -173,7 +173,7 @@ async def on_component_interaction(interaction):
     role_id = int(role_id_str)
     
     all_buttons = []
-    for action_row in interaction.message.components.components[0].components:
+    for action_row in interaction.message.components.components:
         all_buttons.extend(action_row.components)
 
     roles_to_remove = [
