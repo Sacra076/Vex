@@ -9,6 +9,7 @@ YOUTUBE_ANNOUNCEMENT_CHANNEL_ID = 1012822073506283670
 TWITCH_ANNOUNCEMENT_CHANNEL_ID = 1012822073506283670
 WELCOME_ROLE_ID = 1012819099920904272
 
+
 @bot.command()
 @commands.is_owner()
 async def RankMenu(ctx):
@@ -41,6 +42,7 @@ async def RankMenu(ctx):
         embeds=[embed],
         components=components)
 
+
 @bot.command()
 @commands.is_owner()
 async def PronounMenu(ctx):
@@ -66,6 +68,7 @@ async def PronounMenu(ctx):
     await ctx.send(
         embeds=[embed],
         components=components)
+
 
 @bot.command()
 @commands.is_owner()
@@ -98,6 +101,7 @@ async def RegionMenu(ctx):
         embeds=[embed],
         components=components)
 
+
 @bot.command()
 @commands.is_owner()
 async def pingmenu(ctx):
@@ -126,8 +130,6 @@ async def pingmenu(ctx):
         components=components)
 
 
-
-
 #youtube link
 @bot.command()
 async def youtube(ctx):
@@ -153,10 +155,12 @@ async def on_member_join(member):
     channel = bot.get_partial_messageable(WELCOME_CHANNEL_ID)
     await channel.send(f"Welcome to the server, {member.mention}! You are member #{len(member.guild.members)}.",allowed_mentions=discord.AllowedMentions.none())
 
+
 @bot.event
 async def on_member_remove(member):
     channel = bot.get_partial_messageable(LEAVE_CHANNEL_ID)
     await channel.send(f"{member} has left the server.")
+
 
 @bot.event
 async def on_component_interaction(interaction):
@@ -167,15 +171,29 @@ async def on_component_interaction(interaction):
     role_id_str = interaction.custom_id[9:]
     role_id = int(role_id_str)
     
+    all_buttons = []
+    for action_row in interaction.message.components.components[0].components:
+        all_buttons.extend(action_row.buttons)
+
+    roles_to_remove = [
+        discord.Object(int(button.custom_id[9:1]))
+        for button in all_buttons
+    ]
+
     role = discord.Object(role_id)
     await interaction.user.add_roles(
         role,
         reason="Role picker"
     )
+    roles_to_remove.remove(role_to_add)
+    await interaction.user.remove_roles(
+        *roles_to_remove,
+        reason="Role Picker",
+    )
+    
     await interaction.response.send_message("Given Role",
     ephemeral=True,
     )
-
 
 
 @bot.command()
@@ -202,6 +220,7 @@ async def rules(ctx):
 **10.** Accessing and using this server means that you've read and understand the rules. You cannot feign ignorance to avoid punishment.*""")
     await ctx.send(
         embeds=[embed])
+
 
 
 @bot.command()
