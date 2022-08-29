@@ -1,9 +1,11 @@
 import discord
+import os
 from discord.ext import commands, tasks
 from typing import Optional
 import aiohttp
+from dotenv import load_dotenv
 
-
+load_dotenv()
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 WELCOME_CHANNEL_ID = 1012846152028266617
@@ -254,8 +256,8 @@ __Cerberus Activity Roles__
 
 async def get_sacra_game_name() -> Optional[str]:
     url = "https://api.twitch.tv/helix/streams"
-    params = {"user_login": "briandavidgilbert"}
-    headers= {'Authorization': 'Bearer rp1wpyz7gu74rslenqkknd2whfyfxq', 'Client-Id': '46hatcnjlaem81nn1cqhgv2em7dq8w'}
+    params = {"user_login": "sacra076"}
+    headers= {"Authorization": f"Bearer {os.getenv('TWITCH_AUTH')}", "Client-Id": f"{os.getenv('TWITCH_CLIENT')}"}
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url, params=params, headers=headers) as site:
@@ -282,26 +284,4 @@ async def check_live_loop():
 check_live_loop.start()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-bot.run("MTAxMzEzMzc4MzI4Mjc2NTgyNQ.GunQi2.EnS5mc4RzLxWyTTpECLqRwJJySsguvsZMrZLd4")
+bot.run(os.getenv("TOKEN"))
