@@ -164,25 +164,26 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_component_interaction(interaction):
-    if interaction.custom_id.startswith("ROLEMENU"):
-        pass
-    else:
+    if not interaction.custom_id.startswith("ROLEMENU"):
         return
+
+    await interaction.response.defer(ephemeral=True)
+    
     role_id_str = interaction.custom_id[9:]
     role_id = int(role_id_str)
     
     all_buttons = []
     for action_row in interaction.message.components.components[0].components:
-        all_buttons.extend(action_row.buttons)
+        all_buttons.extend(action_row.components)
 
     roles_to_remove = [
-        discord.Object(int(button.custom_id[9:1]))
+        discord.Object(int(button.custom_id[9:]))
         for button in all_buttons
     ]
 
-    role = discord.Object(role_id)
+    role_to_add = discord.Object(role_id)
     await interaction.user.add_roles(
-        role,
+        role_to_add,
         reason="Role picker"
     )
     roles_to_remove.remove(role_to_add)
@@ -190,10 +191,9 @@ async def on_component_interaction(interaction):
         *roles_to_remove,
         reason="Role Picker",
     )
-    
-    await interaction.response.send_message("Given Role",
-    ephemeral=True,
-    )
+
+    await interaction.followup.send("Given Role",
+    ephemeral=True)
 
 
 @bot.command()
