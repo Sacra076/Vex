@@ -1,5 +1,8 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+from typing import Optional
+import aiohttp
+
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -247,6 +250,54 @@ __Cerberus Activity Roles__
 <@&1012796068829855804> - Discord Bot""")
     await ctx.send(
         embeds=[embed])
+
+
+async def get_sacra_game_name() -> Optional[str]:
+    url = "https://api.twitch.tv/helix/streams"
+    params = {"user_login": "briandavidgilbert"}
+    headers= {'Authorization': 'Bearer rp1wpyz7gu74rslenqkknd2whfyfxq', 'Client-Id': '46hatcnjlaem81nn1cqhgv2em7dq8w'}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, headers=headers) as site:
+            data = await site.json()
+    if data['data']:
+        return data['data'][0]['game_name']
+    return None
+
+
+pinged_stream_announcements: bool = False
+
+@tasks.loop(seconds=60)
+async def check_live_loop():
+    game_name = await get_sacra_game_name()
+    if game_name:
+        if pinged_stream_announcements is False:
+            channel = bot.get_partial_messageable(TWITCH_ANNOUNCEMENT_CHANNEL_ID)
+            await channel.send(f"Sacra is now streaming {game_name}, https://www.twitch.tv/sacra076 ")
+            pinged_stream_announcements = True
+    
+    else: pinged_stream_announcements = False
+
+check_live_loop.start()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
