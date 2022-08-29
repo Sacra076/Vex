@@ -269,6 +269,7 @@ pinged_stream_announcements: bool = False
 
 @tasks.loop(seconds=60)
 async def check_live_loop():
+    global pinged_stream_announcements
     game_name = await get_sacra_game_name()
     if game_name:
         if pinged_stream_announcements is False:
