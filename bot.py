@@ -153,7 +153,7 @@ async def minecraftmenu(ctx):
         ])
         for row in buttons
     ])
-    embed = discord.Embed(title="Notifications", colour=0x9b00ff)
+    embed = discord.Embed(title="Minecraft Access", colour=0x9b00ff)
     await ctx.send(
         embeds=[embed],
         components=components)
