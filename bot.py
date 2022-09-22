@@ -134,6 +134,29 @@ async def pingmenu(ctx):
         embeds=[embed],
         components=components)
 
+@bot.command()
+@commands.is_owner()
+async def minecraftmenu(ctx):
+    buttons = (
+        (
+            ("Minecraft Access", 1022557096337739846,),
+        ),
+    )
+    components = discord.ui.MessageComponents(*[
+        discord.ui.ActionRow(*[
+            discord.ui.Button(
+                custom_id=f"ROLEMENU {role_id}",
+                style=discord.ButtonStyle.secondary,
+                label=label
+            )
+            for label, role_id in row
+        ])
+        for row in buttons
+    ])
+    embed = discord.Embed(title="Notifications", colour=0x9b00ff)
+    await ctx.send(
+        embeds=[embed],
+        components=components)
 
 #youtube link
 @bot.command()
